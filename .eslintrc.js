@@ -1,14 +1,13 @@
 module.exports = {
     root: true,
     env: {
-        node: true,
+        node: true
     },
     extends: [
-        'plugin:vue/strongly-recommended',
-        '@vue/airbnb',
+        'plugin:vue/strongly-recommended'
+
     ],
     parserOptions: {
-        parser: 'babel-eslint',
     },
     rules: {
         "vue/html-self-closing": ["error", {
@@ -93,7 +92,7 @@ module.exports = {
             "groups": []
         }],
         "vue/component-name-in-template-casing": ["error", "kebab-case", {
-            "registeredComponentsOnly": true,
+            "registeredComponentsOnly": true
         }],
         'comma-dangle': ['error', {
             arrays: 'never',
@@ -140,5 +139,5 @@ module.exports = {
             ObjectPattern: { multiline: true, consistent: true }
         }],
         'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }]
-    },
+    }
 };

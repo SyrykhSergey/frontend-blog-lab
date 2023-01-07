@@ -1,11 +1,14 @@
 <template>
-  <div>
-
-  </div>
+    <div>
+        <v-head-menu />
+    </div>
 </template>
 
 <script>
+import VHeadMenu from "@/components/v-head-menu.vue";
+
 export default {
+    components: {VHeadMenu}
 
 }
 </script>
