@@ -6,7 +6,7 @@
             <li><a href="#">Авторы</a> </li>
         </ul>
         <div class="login">
-            <a href="/login/">Вход</a>
+            <a href="/login">Вход</a>
         </div>
     </header>
 </template>
