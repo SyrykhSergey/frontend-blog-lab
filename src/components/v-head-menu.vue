@@ -2,11 +2,11 @@
     <header>
         <h3>Блог №415</h3>
         <ul>
-            <li><a href="#">Главная</a> </li>
+            <li><a href="/">Главная</a> </li>
             <li><a href="#">Авторы</a> </li>
         </ul>
         <div class="login">
-            <a href="#">Вход</a>
+            <a href="/login/">Вход</a>
         </div>
     </header>
 </template>

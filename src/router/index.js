@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import mainPage from "@/pages/v-main-page.vue";
+import VLoginPage from "@/pages/v-login-page.vue";
 
 
 
@@ -9,6 +10,8 @@ const routes = [
     component: mainPage
   },
   {
+    path: '/login/',
+    component: VLoginPage
 
   }
 ]
