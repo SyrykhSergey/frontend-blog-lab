@@ -1,14 +1,16 @@
 <template>
     <div>
-        <v-head-menu/>
+        <v-head-menu />
+        <v-registration-form />
     </div>
 </template>
 
 <script>
 import VHeadMenu from "@/components/v-head-menu.vue";
+import VRegistrationForm from "@/components/v-registration-form.vue";
 
 export default {
-    components: {VHeadMenu}
+    components: {VRegistrationForm, VHeadMenu}
 
 }
 </script>
