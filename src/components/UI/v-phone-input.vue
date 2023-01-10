@@ -72,7 +72,7 @@ export default {
 
 <style scoped>
 input{
-    width: 97%;
+    width: 98%;
     padding: 8px 0 7px 8px;
 }
 </style>

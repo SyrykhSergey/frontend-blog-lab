@@ -4,7 +4,18 @@
             class="login-form"
             action="javascript:void(0);"
         >
-            <h2>Регистрация</h2>
+            <div class="form-input-material">
+                <input
+                    type="text"
+                    name="email"
+                    id="email"
+                    placeholder="name@example.com"
+                    autocomplete="off"
+                    class="form-control-material"
+                    required
+                >
+                <label for="email">Email</label>
+            </div>
             <div class="form-input-material">
                 <input
                     type="text"
@@ -18,6 +29,17 @@
                 <label for="name">ФИО</label>
             </div>
             <div class="form-input-material">
+                <v-phone-input v-model="phone.value" />
+                <label for="phone_number">Телефон</label>
+            </div>
+            <div class="form-input-material">
+                <select>
+                    <option>Мужчина</option>
+                    <option>Женщина</option>
+                </select>
+                <label>Пол</label>
+            </div>
+            <div class="form-input-material">
                 <input
                     type="date"
                     name="date"
@@ -28,53 +50,8 @@
                 >
                 <label for="date">Дата рождения</label>
             </div>
-            <div class="form-input-material">
-                <select>
-                    <option>Мужчина</option>
-                    <option>Женщина</option>
-                </select>
-                <label>Пол</label>
-            </div>
-            <div class="form-number">
-                <v-phone-input v-model="phone.value" />
-                <label for="phone_number">Телефон</label>
-                <!--<input type="tel"
-                       name="name"
-                       placeholder="8 (9xx) xxx-xxxx"
-                       pattern="[\+]\d{1}\s[\(]\d{3}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}"
-                       minlength="18"
-                       maxlength="18"
-                       v-phone>
-                <label for="phone_number">Телефон</label>
-                -->
-            </div>
-            <div class="form-input-material">
-                <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    placeholder="name@example.com"
-                    autocomplete="off"
-                    class="form-control-material"
-                    required
-                >
-                <label for="username">Email</label>
-            </div>
-            <div class="form-input-material">
-
-                <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder=" "
-                    autocomplete="off"
-                    class="form-control-material"
-                    required
-                >
-                <label for="password">Пароль</label>
-            </div>
             <button type="submit"
-                    class="btn_sign_in">Зарегестрироваться
+                    class="btn_sign_in">Сохранить
             </button>
 
         </form>
@@ -82,28 +59,20 @@
 </template>
 
 <script>
-import {defineComponent} from "vue";
 import VPhoneInput from "@/components/UI/v-phone-input.vue";
 
-export default defineComponent({
+export default {
+    name: "VProfileEditForm",
     components: {VPhoneInput},
     data(){
         return{
             phone: ''
         }
     }
-})
+}
 </script>
 
 <style scoped>
-
-.form-number {
-    --input-default-border-color: white;
-    --input-border-bottom-color: white;
-    display: flex;
-    flex-direction: column-reverse;
-    width: 400px;
-}
 .form-number input{
     height: 30px;
     margin-top: 2px;
@@ -124,11 +93,11 @@ select{
     padding-left: 5px;
 }
 .btn_sign_in {
+    margin-right: 0;
+    margin-left: auto;
     padding: 8px 20px;
     border-radius: 5px;
     overflow: hidden;
-    width: 100%;
-    margin: 18px 0 5px 0;
     color: white;
     background: dodgerblue;
 
@@ -140,7 +109,8 @@ select{
     --input-border-bottom-color: white;
     display: flex;
     flex-direction: column-reverse;
-    width: 400px;
+    width: 100%;
+    margin: 12px 0;
 
 
 }
@@ -157,19 +127,12 @@ select{
     align-items: flex-start;
     padding: 20px 10px;
     color: black;
-
+    width: 70%;
     border-radius: 5px;
     box-shadow: 0 0 8px 4px rgba(34, 60, 80, 0.2);
 }
 h1{
     margin: 0 0 24px 0;
 }
-
-.form-input-material{
-    margin: 12px 0;
-}
-
-
-
 
 </style>
