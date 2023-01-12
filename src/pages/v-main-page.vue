@@ -6,7 +6,9 @@
             <v-posts v-for="post in allPosts"
                      :key="post.id"
                      :post="post"/>
+            <v-navigation-pages />
         </div>
+
     </div>
 </template>
 
@@ -15,9 +17,10 @@ import VHeadMenu from "@/components/v-head-menu.vue";
 import VFilterPosts from "@/components/v-filter-posts.vue";
 import VPosts from "@/components/v-posts.vue";
 import {mapActions} from "vuex";
+import VNavigationPages from "@/components/v-navigation-pages.vue";
 
 export default {
-    components: {VPosts, VFilterPosts, VHeadMenu},
+    components: {VNavigationPages, VPosts, VFilterPosts, VHeadMenu},
     computed: {
         allPosts() {
             return this.$store.getters.getPostList;

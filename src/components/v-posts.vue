@@ -1,7 +1,7 @@
 <template>
     <div class="main-body">
         <div class="head-post">
-            <h6>{{post.author}} - 01.01.1991</h6>
+            <h6>{{post.author}} - {{createTime}}</h6>
             <h4>{{post.title}}</h4>
         </div>
         <div class="description-post">
@@ -35,13 +35,19 @@ export default {
         return {
             description: '',
             showAllDesc: false,
-            liked: false //В будущем нужно будет изменять
+            liked: false, //В будущем нужно будет изменять
+            createTime: ''
         }
     },
     mounted() {
+        this.remakeDateTime();
         this.removeOverCharacter()
     },
     methods: {
+        remakeDateTime() {// переделываем крейтед тайм для подходящего варианта
+            let time = this.post.createTime;
+            this.createTime = time.replace('T', ' ').substring(0, 16).replace('-','.');
+        },
         removeOverCharacter() { // Вот это чудо, обрезает слишком большие описания для поста
             let desc = this.post.description;
             if(desc.length >= 1000){
