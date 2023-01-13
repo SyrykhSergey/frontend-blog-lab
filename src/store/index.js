@@ -4,7 +4,8 @@ export default createStore({
   state: () =>({
     // Главная страница
     posts_list: [],
-
+    // Авторы
+    authors_list:[],
     // Общее
     is_login: false
   }),
@@ -12,6 +13,10 @@ export default createStore({
     // Главная страница
     getPostList(state){
       return state.posts_list.posts
+    },
+    // Авторы
+    getAuthors(state){
+      return state.authors_list
     }
     // Общее
   },
@@ -19,6 +24,10 @@ export default createStore({
     // Главная страница
     setPosts(state, new_list) {
       state.posts_list = new_list
+    },
+    // Авторы
+    setAuthors(state, new_list) {
+      state.authors_list = new_list
     }
     // Общее
   },
@@ -29,6 +38,13 @@ export default createStore({
       const posts = await result.json()
 
       ctx.commit('setPosts', posts)
+    },
+    // Авторы
+    async fetchAuthors(ctx){
+      const result = await fetch('https://retakeweb2022.kreosoft.space/api/author/list')
+      const authors = await result.json()
+
+      ctx.commit('setAuthors', authors)
     }
 
     // Общее

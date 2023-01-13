@@ -3,6 +3,7 @@ import mainPage from "@/pages/v-main-page.vue";
 import VLoginPage from "@/pages/v-login-page.vue";
 import VRegistrationPage from "@/pages/v-registration-page.vue";
 import VProfilePage from "@/pages/v-profile-page.vue";
+import VAuthorsPage from "@/pages/v-authors-page.vue";
 
 
 
@@ -23,6 +24,10 @@ const routes = [
   {
     path: '/profile',
     component: VProfilePage
+  },
+  {
+    path: '/authors',
+    component: VAuthorsPage
   }
 ]
 
