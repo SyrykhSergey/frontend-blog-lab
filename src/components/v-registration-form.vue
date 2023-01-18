@@ -36,7 +36,7 @@
                 <label>Пол</label>
             </div>
             <div class="form-number">
-                <v-phone-input v-model="phone.value" />
+                <v-phone-input v-model="phone" />
                 <label for="phone_number">Телефон</label>
                 <!--<input type="tel"
                        name="name"

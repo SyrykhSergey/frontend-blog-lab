@@ -21,6 +21,11 @@ import VNavigationPages from "@/components/v-navigation-pages.vue";
 
 export default {
     components: {VNavigationPages, VPosts, VFilterPosts, VHeadMenu},
+    data() {
+        return{
+            currentPage: 1
+        }
+    },
     computed: {
         allPosts() {
             return this.$store.getters.getPostList;

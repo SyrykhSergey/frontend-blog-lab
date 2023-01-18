@@ -1,10 +1,12 @@
+
+
 <template>
     <div class="main-body-bottom">
         <ul>
             <li><a>&lt;</a></li>
-            <li><a>1</a></li>
-            <li><a>2</a></li>
-            <li><a>3</a></li>
+            <li v-for="page in pagination"
+                :key="page"
+            ><a>{{page}}</a></li>
             <li><a>&gt;</a></li>
         </ul>
         <div class="post-for-page">
@@ -19,8 +21,27 @@
 </template>
 
 <script>
+//import {mapActions} from "vuex";
+
 export default {
-    name: "VNavigationPages"
+    name: "VNavigationPages",
+    data(){
+        return{
+            pages: []
+        }
+    }
+    /*computed:{
+        pagination(){
+            return this.$store.getters.getPagination
+        },
+        pagesArray(){
+            const start = this.pagination.count
+        }
+    },//Пагинация переделывается в роутере
+
+    methods: {
+        ...mapActions([])
+    }*/
 }
 </script>
 

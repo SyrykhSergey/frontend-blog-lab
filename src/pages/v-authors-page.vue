@@ -23,11 +23,11 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('fetchAuthors')
-        //this.topAuthors()
+        this.fetchAuthors()
     },
-    methods: mapActions(['fetchAuthors'])/*
-        topAuthors(){
+    methods: {
+        ...mapActions(['fetchAuthors'])
+        /*topAuthors() {// Не работает :(
             let top = [];
             let maxPosts = 0;
             let maxLikes = 0;
@@ -45,39 +45,39 @@ export default {
             let i;
             this.allAuthors.forEach(author, i, this.allAuthors)
             {
-                if(author.posts >= maxPosts){// first
-                    if(author.posts > maxPosts){
+                if (author.posts >= maxPosts) {// first
+                    if (author.posts > maxPosts) {
                         maxPosts = author.posts;
                         maxAuthor = author.fullName;
                         maxLikes = author.Likes;
-                    }else{
-                        if(author.likes > maxLikes){
+                    } else {
+                        if (author.likes > maxLikes) {
                             maxPosts = author.posts;
                             maxAuthor = author.fullName;
                             maxLikes = author.Likes;
                         }
                     }
                 }
-                if(author.posts >= secondMaxPosts){// second
-                    if(author.posts > secondMaxPosts){
+                if (author.posts >= secondMaxPosts) {// second
+                    if (author.posts > secondMaxPosts) {
                         secondMaxPosts = author.posts;
                         secondMaxAuthor = author.fullName;
                         secondMaxLikes = author.Likes;
-                    }else{
-                        if(author.likes > secondMaxLikes){
+                    } else {
+                        if (author.likes > secondMaxLikes) {
                             secondMaxPosts = author.posts;
                             secondMaxAuthor = author.fullName;
                             secondMaxLikes = author.Likes;
                         }
                     }
                 }
-                if(author.posts >= thirdMaxPosts){// third
-                    if(author.posts > thirdMaxPosts){
+                if (author.posts >= thirdMaxPosts) {// third
+                    if (author.posts > thirdMaxPosts) {
                         thirdMaxPosts = author.posts;
                         thirdMaxAuthor = author.fullName;
                         thirdMaxLikes = author.Likes;
-                    }else{
-                        if(author.likes > thirdMaxLikes){
+                    } else {
+                        if (author.likes > thirdMaxLikes) {
                             thirdMaxPosts = author.posts;
                             thirdMaxAuthor = author.fullName;
                             thirdMaxLikes = author.Likes;
@@ -88,6 +88,7 @@ export default {
             top.push(maxAuthor, secondMaxAuthor, thirdMaxAuthor);
 
         }*/
+    }
 }
 </script>
 

@@ -4,6 +4,7 @@ export default createStore({
   state: () =>({
     // Главная страница
     posts_list: [],
+    pagesList: [],
     // Авторы
     authors_list:[],
     // Общее
@@ -13,6 +14,9 @@ export default createStore({
     // Главная страница
     getPostList(state){
       return state.posts_list.posts
+    },
+    getPagination(state){
+      return state.posts_list.pagination
     },
     // Авторы
     getAuthors(state){

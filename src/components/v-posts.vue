@@ -2,7 +2,7 @@
     <div class="main-body">
         <div class="head-post">
             <h6>{{post.author}} - {{createTime}}</h6>
-            <h4>{{post.title}}</h4>
+            <a href="#">{{post.title}}</a>
         </div>
         <div class="description-post">
             <h6>{{description}}</h6>
@@ -83,13 +83,15 @@ export default {
     width: 100%;
 
 }
-.head-post h4{
+.head-post a{
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 10px;
     padding-bottom: 10px;
     border-bottom: black solid 1px;
     font-size: 20px;
+    font-weight: bold;
+    color: black;
 }
 h6{
     margin-left: 10px;

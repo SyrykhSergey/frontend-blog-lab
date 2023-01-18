@@ -73,6 +73,9 @@ export default {
 </script>
 
 <style scoped>
+v-phone-input{
+    width: 100%;
+}
 .form-number input{
     height: 30px;
     margin-top: 2px;
