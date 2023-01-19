@@ -5,6 +5,7 @@ export default createStore({
     // Главная страница
     posts_list: [],
     pagesList: [],
+    paginationArr: [],
     // Авторы
     authors_list:[],
     // Общее
@@ -18,6 +19,9 @@ export default createStore({
     getPagination(state){
       return state.posts_list.pagination
     },
+    getPaginationArr(state){
+      return state.paginationArr
+    },
     // Авторы
     getAuthors(state){
       return state.authors_list
@@ -28,6 +32,12 @@ export default createStore({
     // Главная страница
     setPosts(state, new_list) {
       state.posts_list = new_list
+      const num = Number(new_list.pagination.count)
+      let arr = [];
+      for(let i = 0; i < num; i++){
+        arr.push(i+1);
+      }
+      state.paginationArr = arr
     },
     // Авторы
     setAuthors(state, new_list) {

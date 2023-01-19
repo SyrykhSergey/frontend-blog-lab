@@ -4,9 +4,9 @@
     <div class="main-body-bottom">
         <ul>
             <li><a>&lt;</a></li>
-            <li v-for="page in pagination"
+            <li v-for="page in paginationArr"
                 :key="page"
-            ><a>{{page}}</a></li>
+            ><a href="#">{{page}}</a></li>
             <li><a>&gt;</a></li>
         </ul>
         <div class="post-for-page">
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-//import {mapActions} from "vuex";
 
 export default {
     name: "VNavigationPages",
@@ -29,19 +28,20 @@ export default {
         return{
             pages: []
         }
-    }
-    /*computed:{
-        pagination(){
+    },
+    computed:{
+
+        pagination(){// Пагинация в чистом виде который нам передаёт гет запрос с сервера
             return this.$store.getters.getPagination
         },
-        pagesArray(){
-            const start = this.pagination.count
+        paginationArr(){ // Массив циферок для отрисовки страниц
+            return this.$store.getters.getPaginationArr
         }
-    },//Пагинация переделывается в роутере
 
-    methods: {
-        ...mapActions([])
-    }*/
+
+
+    }//Пагинация переделывается в роутере
+
 }
 </script>
 
@@ -78,5 +78,8 @@ label{
 input{
     width: 105px;
     height: 15px;
+}
+a{
+    text-decoration: none;
 }
 </style>

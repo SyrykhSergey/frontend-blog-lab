@@ -31,7 +31,7 @@ export default {
             return this.$store.getters.getPostList;
         }
     },
-    mounted(){// Делаем запрос
+    beforeMount(){// Делаем запрос
         this.fetchPosts()//
     },
     methods: mapActions(['fetchPosts'])

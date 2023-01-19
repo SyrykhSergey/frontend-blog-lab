@@ -1,19 +1,30 @@
 <template>
     <div>
         <v-head-menu />
-        <h1>hi im the post</h1>
+        <div class="main-body">
+            <v-post/>
+        </div>
     </div>
 </template>
 
 <script>
 import VHeadMenu from "@/components/v-head-menu.vue";
+import VPost from "@/components/v-post.vue";
+import {mapActions} from "vuex";
 
 export default {
-    name: "v-post-page",
-    components: {VHeadMenu}
+    name: "VPostPage",
+    components: {VPost, VHeadMenu},
+    methods:{
+        ...mapActions(['fetchPost'])
+    }
 }
 </script>
 
 <style scoped>
-
+.main-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 </style>

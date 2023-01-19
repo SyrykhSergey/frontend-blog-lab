@@ -2,12 +2,10 @@
     <div class="main-body">
         <div class="head-post">
             <h6>{{post.author}} - {{createTime}}</h6>
-            <router-link :to="'/post/'+ post.id">{{post.title}}</router-link>
+            <h4>{{post.title}}</h4>
         </div>
         <div class="description-post">
-            <h6>{{description}}</h6>
-            <router-link :to="'/post/'+ post.id"
-                         v-if="showAllDesc">Читать полностью</router-link>
+            <h6>{{post.description}}</h6>
             <div class="tags">
                 <h6 v-for="tag in post.tags"
                     :key="tag.id"
@@ -28,44 +26,51 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-    name: "VPosts",
-    props: ['post'],
+    name: "VPost",
     data() {
         return {
             description: '',
-            showAllDesc: false,
             liked: false, //В будущем нужно будет изменять
-            createTime: ''
+            createTime: '',
+            post: [],
+            id: ""
         }
     },
+    beforeMount() {
+        this.getId()
+    },
     mounted() {
-        this.remakeDateTime();
-        this.removeOverCharacter()
+        this.fetchThePost();
+    },
+    updated() {
+        this.remakeDateTime()
     },
     methods: {
+        fetchThePost(){
+            let url = 'https://retakeweb2022.kreosoft.space/api/post/' + this.id
+            axios.get(url)
+                .then(response => {
+                    this.post = response.data
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        },
+        getId(){
+            let url = String(window.location.href);
+            let endI = url.length
+            let startI = url.lastIndexOf('/', endI-1)
+
+            this.id = url.substring(startI+1, endI)
+
+        },
         remakeDateTime() {// переделываем крейтед тайм для подходящего варианта
             let time = this.post.createTime;
             this.createTime = time.replace('T', ' ').substring(0, 16).replace('-','.');
-        },
-        removeOverCharacter() { // Вот это чудо, обрезает слишком большие описания для поста
-            let desc = this.post.description;
-            if(desc.length >= 1000){
-                desc = desc.substring(0,1000);
-                if(desc.lastIndexOf('\n') !== -1 || desc.lastIndexOf('\r') !== -1){
-                    if(desc.lastIndexOf('\n' ) !== -1){
-                        let ending = desc.lastIndexOf("\n");
-                        desc = desc.substring(0, ending);
-                    } else{
-                        let ending = desc.lastIndexOf("\r");
-                        desc = desc.substring(0, ending);
-                    }
-                }
-                this.showAllDesc = true;
-            }
-            this.description = desc;
-// В чём логика, если больше 1000 символов описание, оно обрезает текст до первого (с конца) переноса строки
-        }//И если переноса строки не было, просто обрезает до 1000 символов, и вызывает показывание "читать полностью"
+        }
     }
 }
 </script>
@@ -81,9 +86,8 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
-
 }
-.head-post a{
+.head-post h4{
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 10px;
@@ -101,14 +105,6 @@ h6{
     font-size: 14px
 
 }
-a{
-    font-weight: normal;
-    font-size: 14px;
-    margin: 10px auto 10px 10px;
-    text-decoration: none;
-    color: royalblue;
-}
-
 .tags{
     display: flex;
 }
