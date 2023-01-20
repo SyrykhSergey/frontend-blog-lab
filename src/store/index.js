@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import axios from "axios";
 
 export default createStore({
   state: () =>({
@@ -6,6 +7,7 @@ export default createStore({
     posts_list: [],
     pagesList: [],
     paginationArr: [],
+    post: [],
     // Авторы
     authors_list:[],
     // Общее
@@ -15,6 +17,9 @@ export default createStore({
     // Главная страница
     getPostList(state){
       return state.posts_list.posts
+    },
+    getPost(state){
+      return state.post
     },
     getPagination(state){
       return state.posts_list.pagination
@@ -39,6 +44,9 @@ export default createStore({
       }
       state.paginationArr = arr
     },
+    setPost(state, new_post) {
+      state.post = new_post
+    },
     // Авторы
     setAuthors(state, new_list) {
       state.authors_list = new_list
@@ -52,6 +60,17 @@ export default createStore({
       const posts = await result.json()
 
       ctx.commit('setPosts', posts)
+    },
+    fetchThePost(ctx, id){
+      let url = 'https://retakeweb2022.kreosoft.space/api/post/' + id
+      axios.get(url)
+          .then(response => {
+            ctx.commit('setPost', response.data)
+
+          })
+          .catch(e => {
+            console.log(e)
+          })
     },
     // Авторы
     async fetchAuthors(ctx){

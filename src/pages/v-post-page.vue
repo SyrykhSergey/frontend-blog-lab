@@ -2,7 +2,15 @@
     <div>
         <v-head-menu />
         <div class="main-body">
-            <v-post/>
+            <v-post />
+            <div class="comments">
+                <h3>Комментарии</h3>
+                <v-comments
+                    v-for="item in post.comments"
+                    :key="item.id"
+                    :comment="item"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -11,10 +19,16 @@
 import VHeadMenu from "@/components/v-head-menu.vue";
 import VPost from "@/components/v-post.vue";
 import {mapActions} from "vuex";
+import VComments from "@/components/v-comments.vue";
 
 export default {
     name: "VPostPage",
-    components: {VPost, VHeadMenu},
+    components: {VComments, VPost, VHeadMenu},
+    computed:{
+        post(){
+            return this.$store.getters.getPost
+        }
+    },
     methods:{
         ...mapActions(['fetchPost'])
     }
@@ -23,8 +37,21 @@ export default {
 
 <style scoped>
 .main-body{
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.comments{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: black solid 1px;
+    width: 50%;
+    margin-top: 20px;
+    padding-left: 10px;
+}
+h3{
+    margin-top: 10px;
 }
 </style>

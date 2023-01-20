@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import axios from "axios";
+
+import {mapActions} from "vuex";
 
 export default {
     name: "VPost",
@@ -35,30 +36,25 @@ export default {
             description: '',
             liked: false, //В будущем нужно будет изменять
             createTime: '',
-            post: [],
             id: ""
+        }
+    },
+    computed:{
+        post(){
+            return this.$store.getters.getPost
         }
     },
     beforeMount() {
         this.getId()
     },
     mounted() {
-        this.fetchThePost();
+        this.fetchThePost(this.id);
     },
     updated() {
         this.remakeDateTime()
     },
     methods: {
-        fetchThePost(){
-            let url = 'https://retakeweb2022.kreosoft.space/api/post/' + this.id
-            axios.get(url)
-                .then(response => {
-                    this.post = response.data
-                })
-                .catch(e => {
-                    console.log(e)
-                })
-        },
+        ...mapActions(['fetchThePost']),
         getId(){
             let url = String(window.location.href);
             let endI = url.length
@@ -77,7 +73,6 @@ export default {
 
 <style scoped>
 .main-body{
-    margin-top: 20px;
     display: flex;
     width: 50%;
     border: black solid 1px;
