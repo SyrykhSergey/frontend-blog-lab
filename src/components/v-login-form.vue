@@ -4,7 +4,7 @@
             class="login-form"
             action="javascript:void(0);"
         >
-            <h1>Вход</h1>
+            <h2>Вход</h2>
             <div class="form-input-material">
                 <input
                     type="text"
@@ -31,8 +31,9 @@
             </div>
             <button type="submit"
                     class="btn_sign_in">Войти</button>
-            <button type="submit"
-                    class="btn_sign_up">Зарегестрироваться</button>
+            <button
+                @click="$router.push('/registration')"
+                class="btn_sign_up">Зарегестрироваться</button>
         </form>
     </div>
 </template>
@@ -44,13 +45,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 300px;
-    background: #eceffc;
-}
 .main_page{
     display: flex;
     align-items: center;
@@ -67,9 +61,10 @@ body {
     border-radius: 5px;
     overflow: hidden;
     width: 100%;
-    margin: 18px 0 9px 0;
+    margin: 18px 0 5px 0;
     color: white;
     background: dodgerblue;
+
 
 }
 .btn_sign_up {
@@ -77,7 +72,7 @@ body {
     border-radius: 5px;
     overflow: hidden;
     width: 100%;
-    margin: 18px 0 9px 0;
+    margin: 5px 0 0 0;
     color: white;
     background: gray;
 
@@ -93,7 +88,7 @@ body {
 
 }
 .form-input-material input{
-    height: 20px;
+    height: 30px;
     margin-top: 2px;
 }
 
@@ -101,10 +96,10 @@ body {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 30px 20px;
+    padding: 20px 10px;
     color: black;
 
-    border-radius: 1px;
+    border-radius: 5px;
     box-shadow: 0 0 8px 4px rgba(34, 60, 80, 0.2);
 }
 h1{

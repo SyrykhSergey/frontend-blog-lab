@@ -8,9 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^1.2.3",
     "core-js": "^3.8.3",
+    "inputmask": "^5.0.7",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue-text-mask": "^6.1.2",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

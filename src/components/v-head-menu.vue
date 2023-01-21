@@ -3,10 +3,10 @@
         <h3>Блог №415</h3>
         <ul>
             <li><a href="/">Главная</a> </li>
-            <li><a href="#">Авторы</a> </li>
+            <li><a href="/authors">Авторы</a> </li>
         </ul>
         <div class="login">
-            <a href="/login/">Вход</a>
+            <a href="/login">{{$store.state.is_login ? "email@example.com" : "Вход"}}</a>
         </div>
     </header>
 </template>
