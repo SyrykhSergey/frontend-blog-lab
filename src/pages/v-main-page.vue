@@ -6,7 +6,10 @@
             <v-posts v-for="post in allPosts"
                      :key="post.id"
                      :post="post"/>
-            <v-navigation-pages />
+            <v-navigation-pages @paginationClick="paginationClick"
+                                :currentPage="currentPage"
+                                @paginationLeft="paginationLeft"
+                                @paginationRight="paginationRight"/>
         </div>
 
     </div>
@@ -23,19 +26,94 @@ export default {
     components: {VNavigationPages, VPosts, VFilterPosts, VHeadMenu},
     data() {
         return{
-            currentPage: 1
+            currentPage: 1,
+            urlParams: ''
         }
     },
     computed: {
         allPosts() {
             return this.$store.getters.getPostList;
+        },
+        pagination(){
+            return this.$store.getters.getPagination;
         }
     },
     beforeMount(){// Делаем запрос
-        this.fetchPosts()//
-    },
-    methods: mapActions(['fetchPosts'])
+        this.startFetch()
 
+    },
+
+    methods: {
+        ...mapActions(['fetchPosts']),
+
+        startFetch(){
+            let url = String(window.location.href);
+            let endI = url.length
+            let startI = url.lastIndexOf('/', endI-1)
+            if(startI != -1){
+                this.urlParams = url.substring(startI+1, endI)
+
+                this.fetchPosts(this.urlParams)
+            }
+            endI = url.length
+            startI = url.lastIndexOf('page=', endI-1)
+            if(startI != -1){
+                this.currentPage = url.substring(startI+5, endI)
+            }
+
+        },
+
+        paginationClick(numPage){
+            this.currentPage = numPage.numPage
+            this.$router.push({query: {'page': numPage.numPage}}).then(result => {
+                console.log(result)
+                let url = String(window.location.href);
+                let endI = url.length
+                let startI = url.lastIndexOf('/', endI-1)
+
+                this.urlParams = url.substring(startI+1, endI)
+                console.log(this.urlParams)
+
+                this.fetchPosts(this.urlParams)
+                window.scrollTo(0,0);
+            })
+        },
+        paginationLeft(){
+            if(this.currentPage > 1){
+                this.currentPage -=1
+                this.$router.push({query: {'page': this.currentPage}}).then(result => {
+                    console.log(result)
+                    let url = String(window.location.href);
+                    let endI = url.length
+                    let startI = url.lastIndexOf('/', endI-1)
+
+                    this.urlParams = url.substring(startI+1, endI)
+                    console.log(this.urlParams)
+
+                    this.fetchPosts(this.urlParams)
+                    window.scrollTo(0,0);
+                })
+            }
+        },
+        paginationRight(){
+            if(this.currentPage < this.pagination.count){
+                this.currentPage += 1
+                this.$router.push({query: {'page': this.currentPage}}).then(result => {
+                    console.log(result)
+                    let url = String(window.location.href);
+                    let endI = url.length
+                    let startI = url.lastIndexOf('/', endI-1)
+
+                    this.urlParams = url.substring(startI+1, endI)
+                    console.log(this.urlParams)
+
+                    this.fetchPosts(this.urlParams)
+                    window.scrollTo(0,0);
+                })
+            }
+        }
+
+    }
 
 }
 </script>

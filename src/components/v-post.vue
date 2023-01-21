@@ -53,6 +53,7 @@ export default {
     updated() {
         this.remakeDateTime()
     },
+
     methods: {
         ...mapActions(['fetchThePost']),
         getId(){

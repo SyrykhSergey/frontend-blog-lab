@@ -127,13 +127,15 @@ export default createStore({
   },
   actions: {
     // Главная страница
-    async fetchPosts(ctx){
-      const result = await fetch('https://retakeweb2022.kreosoft.space/api/post')
+    async fetchPosts(ctx, addParams = ''){
+      let url = 'https://retakeweb2022.kreosoft.space/api/post' + addParams
+      const result = await fetch(url)
       const posts = await result.json()
 
       ctx.commit('setPosts', posts)
     },
     fetchThePost(ctx, id){
+      console.log("Fetching is start")
       let url = 'https://retakeweb2022.kreosoft.space/api/post/' + id
       axios.get(url)
           .then(response => {
@@ -143,6 +145,7 @@ export default createStore({
           .catch(e => {
             console.log(e)
           })
+      console.log("Fetched")
     },
     // Авторы
     async fetchAuthors(ctx){

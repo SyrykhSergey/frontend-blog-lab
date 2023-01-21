@@ -3,11 +3,18 @@
 <template>
     <div class="main-body-bottom">
         <ul>
-            <li><a>&lt;</a></li>
+            <li class="notCurrentPage"
+                @click="paginationLeft"><a>&lt;</a></li>
             <li v-for="page in paginationArr"
                 :key="page"
-            ><a href="#">{{page}}</a></li>
-            <li><a>&gt;</a></li>
+                @click="paginationClick(page)"
+            ><div v-if="currentPage == page"
+                  class="currentPage"><a>{{page}}</a></div>
+                <div v-if="currentPage != page"
+                     class="notCurrentPage"><a>{{page}}</a></div>
+            </li>
+            <li class="notCurrentPage"
+                @click="paginationRight"><a>&gt;</a></li>
         </ul>
         <div class="post-for-page">
             <input type="text"
@@ -24,6 +31,7 @@
 
 export default {
     name: "VNavigationPages",
+    props:['currentPage'],
     data(){
         return{
             pages: []
@@ -40,7 +48,21 @@ export default {
 
 
 
-    }//Пагинация переделывается в роутере
+    },//Пагинация переделывается вo vuex
+    methods:{
+        paginationClick(numPage){
+            this.$emit('paginationClick',{
+                numPage
+            })
+        },
+        paginationLeft(){
+            this.$emit('paginationLeft')
+        },
+        paginationRight(){
+            this.$emit('paginationRight')
+        }
+    }
+
 
 }
 </script>
@@ -56,11 +78,31 @@ ul{
     display: flex;
     padding-left: 0;
 }
+
 li{
-    border: royalblue solid 1px;
+
     list-style-type: none;
-    padding: 5px 10px 5px 10px;
     margin: 10px 0 10px 0;
+}
+.currentPage a{
+    color: white;
+}
+.currentPage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3d85ee;
+    width: 25px;
+    height: 25px;
+    border: royalblue solid 1px;
+}
+.notCurrentPage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: royalblue solid 1px;
 }
 a{
     color: royalblue;
