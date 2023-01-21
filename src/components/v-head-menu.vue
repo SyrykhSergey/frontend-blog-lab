@@ -8,6 +8,7 @@
         <div class="login">
             <a href="/login">{{$store.state.is_login ? "email@example.com" : "Вход"}}</a>
         </div>
+
     </header>
 </template>
 

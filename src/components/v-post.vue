@@ -94,8 +94,9 @@ export default {
 }
 h6{
     margin-left: 10px;
-    margin-right: auto;
+    margin-right: 10px;
     margin-top: 10px;
+
     font-weight: normal;
     font-size: 14px
 

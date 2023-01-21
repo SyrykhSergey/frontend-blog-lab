@@ -4,7 +4,8 @@
         <div class="main-body">
             <v-authors-list v-for="author in allAuthors"
                             :key="author.fullName"
-                            :author="author"/>
+                            :author="author"
+            />
         </div>
     </div>
 </template>
@@ -17,17 +18,27 @@ import {mapActions} from "vuex";
 export default {
     name: "VAuthorsPage",
     components: {VAuthorsList, VHeadMenu},
+    data(){
+        return{
+            topAuth: []
+        }
+    },
     computed:{
         allAuthors(){
             return this.$store.getters.getAuthors
         }
     },
-    mounted() {
+    //updated() {
+        //this.topAuthors()
+    //},
+    beforeMount() {
         this.fetchAuthors()
     },
     methods: {
         ...mapActions(['fetchAuthors'])
         /*topAuthors() {// Не работает :(
+            const arr = this.allAuthors
+            if(this.topAuth.length == 0) return 0;
             let top = [];
             let maxPosts = 0;
             let maxLikes = 0;
@@ -41,12 +52,14 @@ export default {
             let thirdMaxLikes = 0;
             let thirdMaxAuthor = "";
 
-            let author;
-            let i;
-            this.allAuthors.forEach(author, i, this.allAuthors)
+            arr.forEach(function (author)
             {
                 if (author.posts >= maxPosts) {// first
                     if (author.posts > maxPosts) {
+                        secondMaxPosts = maxPosts;
+                        secondMaxLikes = maxLikes;
+                        secondMaxAuthor = maxAuthor;
+
                         maxPosts = author.posts;
                         maxAuthor = author.fullName;
                         maxLikes = author.Likes;
@@ -57,35 +70,42 @@ export default {
                             maxLikes = author.Likes;
                         }
                     }
-                }
-                if (author.posts >= secondMaxPosts) {// second
-                    if (author.posts > secondMaxPosts) {
-                        secondMaxPosts = author.posts;
-                        secondMaxAuthor = author.fullName;
-                        secondMaxLikes = author.Likes;
-                    } else {
-                        if (author.likes > secondMaxLikes) {
+                }else{
+                    if (author.posts >= secondMaxPosts) {// second
+                        if (author.posts > secondMaxPosts) {
+                            thirdMaxPosts = secondMaxPosts;
+                            thirdMaxLikes = secondMaxLikes;
+                            thirdMaxAuthor = secondMaxAuthor;
+
                             secondMaxPosts = author.posts;
                             secondMaxAuthor = author.fullName;
                             secondMaxLikes = author.Likes;
+                        } else {
+                            if (author.likes > secondMaxLikes) {
+                                secondMaxPosts = author.posts;
+                                secondMaxAuthor = author.fullName;
+                                secondMaxLikes = author.Likes;
+                            }
+                        }
+                    }else{
+                        if (author.posts >= thirdMaxPosts) {// third
+                            if (author.posts > thirdMaxPosts) {
+                                thirdMaxPosts = author.posts;
+                                thirdMaxAuthor = author.fullName;
+                                thirdMaxLikes = author.Likes;
+                            } else {
+                                if (author.likes > thirdMaxLikes) {
+                                    thirdMaxPosts = author.posts;
+                                    thirdMaxAuthor = author.fullName;
+                                    thirdMaxLikes = author.Likes;
+                                }
+                            }
                         }
                     }
                 }
-                if (author.posts >= thirdMaxPosts) {// third
-                    if (author.posts > thirdMaxPosts) {
-                        thirdMaxPosts = author.posts;
-                        thirdMaxAuthor = author.fullName;
-                        thirdMaxLikes = author.Likes;
-                    } else {
-                        if (author.likes > thirdMaxLikes) {
-                            thirdMaxPosts = author.posts;
-                            thirdMaxAuthor = author.fullName;
-                            thirdMaxLikes = author.Likes;
-                        }
-                    }
-                }
-            }
+            })
             top.push(maxAuthor, secondMaxAuthor, thirdMaxAuthor);
+            this.topAuth = top
 
         }*/
     }

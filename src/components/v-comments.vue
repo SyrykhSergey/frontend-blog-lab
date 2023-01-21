@@ -1,11 +1,24 @@
 <template>
     <div class="main-body-comm">
-        <p class="author-date">{{comment.author}}</p>
-        <p class="content">{{comment.content}}</p>
+        <p class="author-date"
+           v-if="comment.deleteDate == null"
+        >{{comment.author}}</p>
+        <p class="author-date"
+           v-else
+        >[Коментарий удален]</p>
+        <p class="content"
+           v-if="comment.deleteDate == null"
+        >{{comment.content}}</p>
+        <p class="content"
+           v-else
+        >[Коментарий удален]</p>
         <div class="date-answer">
             <p class="author-date">{{createTime}}</p>
             <p class="answer">Ответить</p>
         </div>
+        <p class="show-all"
+           v-if="comment.subComments != 0"
+        >Раскрыть ответы</p>
     </div>
 </template>
 
@@ -36,14 +49,27 @@ export default {
 </script>
 
 <style scoped>
+.content{
+    margin-top: 8px;
+}
 .main-body-comm{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-top: 30px;
 }
+.author-date{
+    font-size: 13px;
+}
 .date-answer{
+    font-size: 13px;
     display: flex;
+    margin-top: 8px;
+}
+.show-all{
+    color: royalblue;
+    margin-top: 8px;
+    font-size: 13px;
 }
 .answer{
     margin-left: 10px;
