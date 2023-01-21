@@ -1,7 +1,7 @@
 <template>
     <div>
-        <v-head-menu/>
-        <v-login-form/>
+        <v-head-menu />
+        <v-login-form />
     </div>
 </template>
 
