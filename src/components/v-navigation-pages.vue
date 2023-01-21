@@ -17,10 +17,11 @@
                 @click="paginationRight"><a>&gt;</a></li>
         </ul>
         <div class="post-for-page">
-            <input type="text"
+            <input type="number"
                    name="countPosts"
                    id="countPosts"
                    placeholder="5"
+                   v-model="postsOnPage"
             >
             <label for="countPosts">Число постов на странице</label>
         </div>
@@ -34,9 +35,11 @@ export default {
     props:['currentPage'],
     data(){
         return{
-            pages: []
+            pages: [],
+            postsOnPage: 5
         }
     },
+
     computed:{
 
         pagination(){// Пагинация в чистом виде который нам передаёт гет запрос с сервера
@@ -47,8 +50,16 @@ export default {
         }
 
 
-
     },//Пагинация переделывается вo vuex
+    watch:{
+        postsOnPage(value){
+            if(this.postsOnPage != ''){
+                this.$emit('newPostsOnPage',{
+                    value
+                })
+            }
+        }
+    },
     methods:{
         paginationClick(numPage){
             this.$emit('paginationClick',{

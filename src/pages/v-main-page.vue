@@ -9,7 +9,8 @@
             <v-navigation-pages @paginationClick="paginationClick"
                                 :currentPage="currentPage"
                                 @paginationLeft="paginationLeft"
-                                @paginationRight="paginationRight"/>
+                                @paginationRight="paginationRight"
+                                @newPostsOnPage="postOnPage"/>
         </div>
 
     </div>
@@ -27,7 +28,8 @@ export default {
     data() {
         return{
             currentPage: 1,
-            urlParams: ''
+            urlParams: '',
+            pageSize: 5
         }
     },
     computed: {
@@ -65,7 +67,7 @@ export default {
 
         paginationClick(numPage){
             this.currentPage = numPage.numPage
-            this.$router.push({query: {'page': numPage.numPage}}).then(result => {
+            this.$router.push({query: {'page': numPage.numPage, 'size': this.pageSize}}).then(result => {
                 console.log(result)
                 let url = String(window.location.href);
                 let endI = url.length
@@ -81,7 +83,7 @@ export default {
         paginationLeft(){
             if(this.currentPage > 1){
                 this.currentPage -=1
-                this.$router.push({query: {'page': this.currentPage}}).then(result => {
+                this.$router.push({query: {'page': this.currentPage, 'size': this.pageSize}}).then(result => {
                     console.log(result)
                     let url = String(window.location.href);
                     let endI = url.length
@@ -98,7 +100,7 @@ export default {
         paginationRight(){
             if(this.currentPage < this.pagination.count){
                 this.currentPage += 1
-                this.$router.push({query: {'page': this.currentPage}}).then(result => {
+                this.$router.push({query: {'page': this.currentPage, 'size': this.pageSize}}).then(result => {
                     console.log(result)
                     let url = String(window.location.href);
                     let endI = url.length
@@ -111,6 +113,25 @@ export default {
                     window.scrollTo(0,0);
                 })
             }
+        },
+
+        postOnPage(num){
+            this.pageSize = num.value
+            this.$router.push({query: {'page': this.currentPage, 'size': this.pageSize}}).then(result => {
+                console.log(result)
+                let url = String(window.location.href);
+                let endI = url.length
+                let startI = url.lastIndexOf('/', endI-1)
+
+                this.urlParams = url.substring(startI+1, endI)
+                console.log(this.urlParams)
+
+                this.fetchPosts(this.urlParams).then(result =>{
+                    console.log(result)
+                    window.scrollTo(0, document.body.scrollHeight);
+                })
+
+            })
         }
 
     }

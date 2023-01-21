@@ -5,7 +5,7 @@
             <h4>{{post.title}}</h4>
         </div>
         <div class="description-post">
-            <h6>{{post.description}}</h6>
+            <h6>{{String(post.description)}}</h6>
             <div class="tags">
                 <h6 v-for="tag in post.tags"
                     :key="tag.id"
@@ -80,9 +80,11 @@ export default {
 }
 .head-post, .description-post{
     display: flex;
+    white-space: pre-wrap;
     flex-direction: column;
     width: 100%;
 }
+
 .head-post h4{
     margin-left: 10px;
     margin-right: 10px;
@@ -97,9 +99,9 @@ h6{
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 10px;
-
     font-weight: normal;
-    font-size: 14px
+    font-size: 14px;
+
 
 }
 .tags{

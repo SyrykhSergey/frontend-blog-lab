@@ -81,6 +81,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
+    white-space: pre-wrap;
 
 }
 .head-post a{
