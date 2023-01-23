@@ -39,7 +39,7 @@
 </template>
 
 <script>
-export default {
+export default {// коммент для красивого ветвления
 
 }
 </script>
