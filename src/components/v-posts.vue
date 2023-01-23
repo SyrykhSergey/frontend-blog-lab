@@ -20,14 +20,18 @@
             <img src="@/icons/comment.png">
             <h6 class="likes">{{post.likes}}</h6>
             <img src="@/icons/heart.png"
-                 v-if="!liked">
+                 v-if="!liked"
+                 @click="Like">
             <img src="@/icons/filledHeart.png"
-                 v-if="liked">
+                 v-if="liked"
+                 @click="unLike">
         </div>
     </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "VPosts",
     props: ['post'],
@@ -35,7 +39,7 @@ export default {
         return {
             description: '',
             showAllDesc: false,
-            liked: false, //В будущем нужно будет изменять
+            liked: false,
             createTime: ''
         }
     },
@@ -65,7 +69,50 @@ export default {
             }
             this.description = desc;
 // В чём логика, если больше 1000 символов описание, оно обрезает текст до первого (с конца) переноса строки
-        }//И если переноса строки не было, просто обрезает до 1000 символов, и вызывает показывание "читать полностью"
+        },//И если переноса строки не было, просто обрезает до 1000 символов, и вызывает показывание "читать полностью"
+        Like(){
+            if(this.$store.state.is_login) {
+                this.liked = !this.liked
+                let config = {
+                    headers: {
+                        Authorization: 'Bearer ' + this.$store.state.token
+                    }
+                }
+                //запрос не работает
+                let url = 'https://retakeweb2022.kreosoft.space/api/post/' + this.post.id + '/like'
+                axios.post(url, config)
+                    .then(response => {
+                        this.$store.commit('setLogout');
+                        console.log("All is okay in logout", response)
+                    })
+                    .catch(error => {
+                        this.errorMessage = error.message;
+                        console.log(config.headers)
+                        console.error("There was an error!", error);
+                    });
+            }
+        },
+        unLike(){
+            if(this.$store.state.is_login) {
+                let config = {
+                    headers: {
+                        Authorization: 'Bearer ' + this.$store.state.token
+                    }
+                }
+                let url = 'https://retakeweb2022.kreosoft.space/api/post/' + this.post.id + '/like'
+                //запрос не работает т.к. я не знаю в какой хедер пихать токен
+                axios.delete(url, config)
+                    .then(response => {
+                        console.log("All is okay in logout", response)
+                    })
+                    .catch(error => {
+                        this.errorMessage = error.message;
+                        console.log(config.headers)
+                        console.error("There was an error!", error);
+                    });
+                this.liked = !this.liked
+            }
+        }
     }
 }
 </script>
@@ -81,6 +128,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
+    white-space: pre-wrap;
 
 }
 .head-post a{
