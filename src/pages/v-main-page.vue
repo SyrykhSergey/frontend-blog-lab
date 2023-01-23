@@ -2,7 +2,8 @@
     <div>
         <v-head-menu />
         <div class="main-body">
-            <v-filter-posts />
+            <v-filter-posts @applyFilters="applyFilters"
+                            :paramsBack="paramsBack"/>
             <v-posts v-for="post in allPosts"
                      :key="post.id"
                      :post="post"/>
@@ -30,7 +31,8 @@ export default {
         return{
             currentPage: 1,
             urlParams: '',
-            pageSize: 5
+            pageSize: 5,
+            paramsBack: {}
         }
     },
     computed: {
@@ -131,6 +133,22 @@ export default {
                 })
 
             })
+        },
+        applyFilters(params){
+            this.$router.push({query: params}).then(result => {
+                console.log(result)
+                let url = String(window.location.href);
+                let endI = url.length
+                let startI = url.lastIndexOf('/', endI-1)
+
+                this.urlParams = url.substring(startI+1, endI)
+                console.log(this.urlParams)
+
+                this.fetchPosts(this.urlParams).then(result =>{
+                    console.log(result)
+                })
+            })
+            this.paramsBack = params
         }
 
     }

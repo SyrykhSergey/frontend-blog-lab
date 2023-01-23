@@ -36,11 +36,11 @@ export default {
     methods:{
         exit(){//'https://retakeweb2022.kreosoft.space/api/account/logout'
             let config = {
-                headers: {
-                    token: this.$store.state.token
+                headers:{
+                    Authorization: 'Bearer ' + this.$store.state.token
                 }
             }
-            this.$store.commit('setLogout');//А оно тут потому что я не знаю в какой хедер кидать токен(
+            this.$store.commit('setLogout');// Это здесь чтобы визуально логаут работал
             axios.post('https://retakeweb2022.kreosoft.space/api/account/logout', config)
                 .then(response => {
                     this.$store.commit('setLogout');
