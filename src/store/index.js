@@ -11,8 +11,10 @@ export default createStore({
     top: [],
     // Авторы
     authors_list:[],
-    // Общее
-    is_login: false
+    // Пользователи
+    token: '',
+    is_login: false,
+    email: ''
   }),
   getters: {
     // Главная страница
@@ -34,6 +36,12 @@ export default createStore({
     },
     getTop(state){
       return state.top
+    },
+    getEmail(state){
+      return state.email
+    },
+    getIsLogin(state){
+      return state.is_login
     }
     // Общее
   },
@@ -122,8 +130,19 @@ export default createStore({
       })
       top.push(maxAuthor, secondMaxAuthor, thirdMaxAuthor);
       state.top = top
-    }
+    },
     // Общее
+    setLogin(store, token){
+      store.token = token.data.token;
+      store.is_login = true;
+    },
+    setEmail(store, email){
+      store.email = email
+    },
+    setLogout(store){
+      store.is_login = false;
+      store.token = '';
+    }
   },
   actions: {
     // Главная страница
@@ -132,6 +151,7 @@ export default createStore({
       axios.get(url)
           .then(response => {
             ctx.commit('setPosts', response.data)
+
 
           })
           .catch(e => {

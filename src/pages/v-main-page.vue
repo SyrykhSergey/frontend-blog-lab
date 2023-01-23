@@ -8,6 +8,7 @@
                      :post="post"/>
             <v-navigation-pages @paginationClick="paginationClick"
                                 :currentPage="currentPage"
+                                :pageSize="pageSize"
                                 @paginationLeft="paginationLeft"
                                 @paginationRight="paginationRight"
                                 @newPostsOnPage="postOnPage"/>
@@ -57,11 +58,9 @@ export default {
 
                 this.fetchPosts(this.urlParams)
             }
-            endI = url.length
-            startI = url.lastIndexOf('page=', endI-1)
-            if(startI != -1){
-                this.currentPage = url.substring(startI+5, endI)
-            }
+            this.currentPage = this.$route.query.page
+            this.pageSize = this.$route.query.size
+            console.log(this.pageSize)
 
         },
 

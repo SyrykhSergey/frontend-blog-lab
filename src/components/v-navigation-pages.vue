@@ -8,9 +8,9 @@
             <li v-for="page in paginationArr"
                 :key="page"
                 @click="paginationClick(page)"
-            ><div v-if="currentPage == page"
+            ><div v-if="secondCurrentPage == page"
                   class="currentPage"><a>{{page}}</a></div>
-                <div v-if="currentPage != page"
+                <div v-if="secondCurrentPage != page"
                      class="notCurrentPage"><a>{{page}}</a></div>
             </li>
             <li class="notCurrentPage"
@@ -20,8 +20,17 @@
             <input type="number"
                    name="countPosts"
                    id="countPosts"
-                   placeholder="5"
+                   placeholder='{{pageSize}}'
                    v-model="postsOnPage"
+                   v-if="secondCurrentPage == 1"
+            >
+            <input type="number"
+                   name="countPosts"
+                   id="countPosts"
+                   placeholder='{{pageSize}}'
+                   v-model="postsOnPage"
+                   disabled
+                   v-else
             >
             <label for="countPosts">Число постов на странице</label>
         </div>
@@ -32,11 +41,12 @@
 
 export default {
     name: "VNavigationPages",
-    props:['currentPage'],
+    props:['currentPage', 'pageSize'],
     data(){
         return{
             pages: [],
-            postsOnPage: 5
+            postsOnPage: 5,//Зачем это и следующие значения нужны если есть пропсы?
+            secondCurrentPage: 1//В том случае если пропсы = null, эти значения выдадутся по умолчанию
         }
     },
 
@@ -60,6 +70,9 @@ export default {
             }
         }
     },
+    updated() {// В mounted не пихать, не срабатывает почему-то
+        this.refillData()
+    },
     methods:{
         paginationClick(numPage){
             this.$emit('paginationClick',{
@@ -71,6 +84,14 @@ export default {
         },
         paginationRight(){
             this.$emit('paginationRight')
+        },
+        refillData(){
+            if(this.pageSize != null) {
+                this.postsOnPage = this.pageSize
+            }
+            if(this.currentPage != null){
+                this.secondCurrentPage = this.currentPage
+            }
         }
     }
 
