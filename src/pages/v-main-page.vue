@@ -68,7 +68,18 @@ export default {
 
         paginationClick(numPage){
             this.currentPage = numPage.numPage
-            this.$router.push({query: {'page': numPage.numPage, 'size': this.pageSize}}).then(result => {
+            let params = {
+                page: numPage.numPage,
+                size: this.pageSize
+            }
+
+            if(this.$route.query.author != undefined) params.author = this.$route.query.author;
+            if(this.$route.query.min != undefined) params.min = this.$route.query.min;
+            if(this.$route.query.max != undefined) params.max = this.$route.query.max;
+            if(this.$route.query.sorting != undefined) params.sorting = this.$route.query.sorting;
+            if(this.$route.query.tags != undefined) params.tags = this.$route.query.tags;
+
+            this.$router.push({query: params}).then(result => {
                 console.log(result)
                 let url = String(window.location.href);
                 let endI = url.length
