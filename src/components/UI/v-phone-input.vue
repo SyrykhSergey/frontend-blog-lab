@@ -2,19 +2,10 @@
     <div class="phone">
         <input class="line disabled-bold form-control form-control-sm is-valid phone-input"
                type="tel"
-               :value="value"
                @input="change"
+               v-model="phoneValue"
                placeholder="+7 (xxx) xxx-xx-xx"
                :class="{'is-invalid': !valid}">
-        <b-form-invalid-feedback v-if="!nonValidated"
-                                 v-show="!valid">
-            <template v-if="errorMessage">
-                {{errorMessage}}
-            </template>
-            <template v-else-if="required">
-                Поле обязательно для заполнения
-            </template>
-        </b-form-invalid-feedback>
     </div>
 </template>
 
@@ -55,6 +46,18 @@ export default {
             default: 'Ошибка заполнения данных'
         }
     },
+    data(){
+        return{
+            phoneValue: ''
+        }
+    },
+    watch:{
+        phoneValue(value){
+            if(this.phoneValue != ''){
+                this.$emit('newNumber', value)
+            }
+        }
+    },
     mounted() {
         let selector = document.getElementsByClassName('phone-input');
         this.bindPhoneMask(selector);
@@ -70,6 +73,7 @@ export default {
                 val = '79';
             }
             this.$emit('input', val);
+            console.log(this.value)
         },
         bindPhoneMask(inputElement, regexMask = null, placeholder = null) {
             if (!regexMask) regexMask = '^\\+7 \\([3489]\\d\\d\\) \\d\\d\\d-\\d\\d-\\d\\d$';

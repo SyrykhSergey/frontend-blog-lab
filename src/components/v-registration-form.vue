@@ -5,6 +5,10 @@
             action="javascript:void(0);"
         >
             <h2>Регистрация</h2>
+            <h3 class="successful"
+                v-if="registrationIsGood == 'Yea'">Успешно зарегестрирован</h3>
+            <h3 class="unsuccessful"
+                v-if="registrationIsGood == 'No'">Ошибка регистрации</h3>
             <div class="form-input-material">
                 <input
                     type="text"
@@ -13,40 +17,34 @@
                     placeholder="Иванов Иван Иванович"
                     autocomplete="off"
                     class="form-control-material"
+                    v-model="fullName"
                     required
                 >
                 <label for="name">ФИО</label>
             </div>
             <div class="form-input-material">
                 <input
-                    type="date"
+                    type="datetime-local"
                     name="date"
                     id="date"
                     autocomplete="off"
                     class="form-control-material"
+                    v-model="birthData"
                     required
                 >
                 <label for="date">Дата рождения</label>
             </div>
             <div class="form-input-material">
-                <select>
+                <select v-model="gender">
                     <option>Мужчина</option>
                     <option>Женщина</option>
                 </select>
                 <label>Пол</label>
             </div>
             <div class="form-number">
-                <v-phone-input v-model="phone" />
+                <v-phone-input :value="phone"
+                               @newNumber="phoneVal"/>
                 <label for="phone_number">Телефон</label>
-                <!--<input type="tel"
-                       name="name"
-                       placeholder="8 (9xx) xxx-xxxx"
-                       pattern="[\+]\d{1}\s[\(]\d{3}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}"
-                       minlength="18"
-                       maxlength="18"
-                       v-phone>
-                <label for="phone_number">Телефон</label>
-                -->
             </div>
             <div class="form-input-material">
                 <input
@@ -56,6 +54,7 @@
                     placeholder="name@example.com"
                     autocomplete="off"
                     class="form-control-material"
+                    v-model="email"
                     required
                 >
                 <label for="username">Email</label>
@@ -69,12 +68,14 @@
                     placeholder=" "
                     autocomplete="off"
                     class="form-control-material"
+                    v-model="password"
                     required
                 >
                 <label for="password">Пароль</label>
             </div>
             <button type="submit"
-                    class="btn_sign_in">Зарегестрироваться
+                    class="btn_sign_in"
+                    @click="submit">Зарегестрироваться
             </button>
 
         </form>
@@ -84,19 +85,60 @@
 <script>
 import {defineComponent} from "vue";
 import VPhoneInput from "@/components/UI/v-phone-input.vue";
+import axios from "axios";
 
 export default defineComponent({
     components: {VPhoneInput},
     data(){
         return{
-            phone: ''
+            phone: '',
+            fullName:'',
+            birthData:'',
+            gender:'',
+            email:'',
+            password: '',
+            registrationIsGood: ''
+        }
+    },
+    methods:{
+         submit(){
+             let genderForJSON
+             if(this.gender == 'Мужчина') genderForJSON = 'Male';
+             else genderForJSON = 'Female';
+            const article = {
+                fullName: this.fullName,
+                password: this.password,
+                email: this.email,
+                birthDate: this.birthData+':11.111Z',
+                gender: genderForJSON,
+                phoneNumber: this.phone
+            };
+
+             axios.post("https://retakeweb2022.kreosoft.space/api/account/register", article)
+                 .then(response => {
+                     this.$store.commit('setLogin', response, this.email);
+                     this.registrationIsGood = 'Yea';
+                 })
+                 .catch(error => {
+                     this.errorMessage = error.message;
+                     this.registrationIsGood = 'No';
+                     console.error("There was an error!", error);
+                 });
+        },
+        phoneVal(value){
+            this.phone = value
         }
     }
 })
 </script>
 
 <style scoped>
-
+.successful{
+    color:green;
+}
+.unsuccessful{
+    color: red;
+}
 .form-number {
     --input-default-border-color: white;
     --input-border-bottom-color: white;

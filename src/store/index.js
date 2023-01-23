@@ -8,10 +8,13 @@ export default createStore({
     pagesList: [],
     paginationArr: [],
     post: [],
+    top: [],
     // Авторы
     authors_list:[],
-    // Общее
-    is_login: false
+    // Пользователи
+    token: '',
+    is_login: false,
+    email: ''
   }),
   getters: {
     // Главная страница
@@ -30,6 +33,15 @@ export default createStore({
     // Авторы
     getAuthors(state){
       return state.authors_list
+    },
+    getTop(state){
+      return state.top
+    },
+    getEmail(state){
+      return state.email
+    },
+    getIsLogin(state){
+      return state.is_login
     }
     // Общее
   },
@@ -50,18 +62,107 @@ export default createStore({
     // Авторы
     setAuthors(state, new_list) {
       state.authors_list = new_list
-    }
+      const arr = new_list
+      let top = [];
+      let maxPosts = 0;
+      let maxLikes = 0;
+      let maxAuthor = "";
+
+      let secondMaxPosts = 0;
+      let secondMaxLikes = 0;
+      let secondMaxAuthor = "";
+
+      let thirdMaxPosts = 0;
+      let thirdMaxLikes = 0;
+      let thirdMaxAuthor = "";
+
+      arr.forEach(function (author)
+      {
+        if (author.posts >= maxPosts) {// first
+          if (author.posts > maxPosts) {
+            secondMaxPosts = maxPosts;
+            secondMaxLikes = maxLikes;
+            secondMaxAuthor = maxAuthor;
+
+            maxPosts = author.posts;
+            maxAuthor = author.fullName;
+            maxLikes = author.Likes;
+          } else {
+            if (author.likes > maxLikes) {
+              maxPosts = author.posts;
+              maxAuthor = author.fullName;
+              maxLikes = author.Likes;
+            }
+          }
+        }else{
+          if (author.posts >= secondMaxPosts) {// second
+            if (author.posts > secondMaxPosts) {
+              thirdMaxPosts = secondMaxPosts;
+              thirdMaxLikes = secondMaxLikes;
+              thirdMaxAuthor = secondMaxAuthor;
+
+              secondMaxPosts = author.posts;
+              secondMaxAuthor = author.fullName;
+              secondMaxLikes = author.Likes;
+            } else {
+              if (author.likes > secondMaxLikes) {
+                secondMaxPosts = author.posts;
+                secondMaxAuthor = author.fullName;
+                secondMaxLikes = author.Likes;
+              }
+            }
+          }else{
+            if (author.posts >= thirdMaxPosts) {// third
+              if (author.posts > thirdMaxPosts) {
+                thirdMaxPosts = author.posts;
+                thirdMaxAuthor = author.fullName;
+                thirdMaxLikes = author.Likes;
+              } else {
+                if (author.likes > thirdMaxLikes) {
+                  thirdMaxPosts = author.posts;
+                  thirdMaxAuthor = author.fullName;
+                  thirdMaxLikes = author.Likes;
+                }
+              }
+            }
+          }
+        }
+      })
+      top.push(maxAuthor, secondMaxAuthor, thirdMaxAuthor);
+      state.top = top
+    },
     // Общее
+    setLogin(store, token){
+      store.token = token.data.token;
+      store.is_login = true;
+    },
+    setEmail(store, email){
+      store.email = email
+    },
+    setLogout(store){
+      store.is_login = false;
+      store.token = '';
+    }
   },
   actions: {
     // Главная страница
-    async fetchPosts(ctx){
-      const result = await fetch('https://retakeweb2022.kreosoft.space/api/post')
-      const posts = await result.json()
+    async fetchPosts(ctx, addParams = ''){
+      let url = 'https://retakeweb2022.kreosoft.space/api/post' + addParams
+      axios.get(url)
+          .then(response => {
+            ctx.commit('setPosts', response.data)
 
-      ctx.commit('setPosts', posts)
+
+          })
+          .catch(e => {
+            console.log(e)
+          })
+      /*const result = await fetch(url)
+      const posts = await result.json()*/
+      console.log("Fetched :", url)
     },
     fetchThePost(ctx, id){
+
       let url = 'https://retakeweb2022.kreosoft.space/api/post/' + id
       axios.get(url)
           .then(response => {
@@ -71,6 +172,7 @@ export default createStore({
           .catch(e => {
             console.log(e)
           })
+
     },
     // Авторы
     async fetchAuthors(ctx){

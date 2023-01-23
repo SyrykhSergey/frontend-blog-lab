@@ -5,7 +5,12 @@
              v-if="author.gender == 'Male'">
         <img src="@/icons/user-woman.png"
              v-if="author.gender == 'Female'">
-        <span class="gold-crone" />
+        <span v-if="topPos == 0"
+              class="gold-crone" />
+        <span v-if="topPos == 1"
+              class="silver-crone" />
+        <span v-if="topPos == 2"
+              class="bronze-crone" />
         <div class="description">
             <div class="inside-body">
                 <p class="full-name">{{author.fullName}}</p>
@@ -30,17 +35,36 @@ export default {
     data() {
         return {
             createdDate: '',
-            birthDate: ''
+            birthDate: '',
+            topPos: 3
         }
+    },
+    computed:{
+        top(){
+            return this.$store.getters.getTop
+        }
+    },
+    updated() {
+
     },
     mounted() {
         this.remakeDate()
+        this.checkTop()
     },
     methods:{
         remakeDate(){
             this.createdDate = this.author.created.substring(0, 10);
             this.birthDate = this.author.birthDate.substring(0, 10);
+        },
+        checkTop(){
+            const a = this.top
+            let b = this.author.fullName
+            if(a[0] == b) this.topPos = 0;
+            if(a[1] == b) this.topPos = 1;
+            if(a[2] == b) this.topPos = 2;// FOREACH HERE DOESN'T WORK, I DON'T KNOW WHY
         }
+
+
     }
 }
 </script>

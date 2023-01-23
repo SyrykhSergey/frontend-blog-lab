@@ -103,7 +103,6 @@ module.exports = {
         }],
         'linebreak-style': ["error", "windows"],
         'no-debugger': 'error',
-        'arrow-parens': ['error', 'as-needed'],
         'no-plusplus': 'off',
         'constructor-super': 'off',
         "no-mixed-operators": [

@@ -47,9 +47,9 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     border: black solid 1px;
-    width: 50%;
     margin-top: 20px;
     padding-left: 10px;
+    width: 49%;
 }
 h3{
     margin-top: 10px;

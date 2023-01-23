@@ -13,6 +13,7 @@
                     placeholder="name@example.com"
                     autocomplete="off"
                     class="form-control-material"
+                    v-model="email"
                     required
                 >
                 <label for="username">Email</label>
@@ -25,12 +26,14 @@
                     placeholder=" "
                     autocomplete="off"
                     class="form-control-material"
+                    v-model="password"
                     required
                 >
                 <label for="password">Пароль</label>
             </div>
             <button type="submit"
-                    class="btn_sign_in">Войти</button>
+                    class="btn_sign_in"
+                    @click="submit">Войти</button>
             <button
                 @click="$router.push('/registration')"
                 class="btn_sign_up">Зарегестрироваться</button>
@@ -39,7 +42,34 @@
 </template>
 
 <script>
-export default {// коммент для красивого ветвления
+import axios from "axios";
+
+export default {
+    data(){
+        return{
+            email: '',
+            password: ''
+        }
+    },
+    methods:{
+        submit(){
+            const article = {
+                email: this.email,
+                password: this.password
+            };
+            this.$store.commit('setEmail', this.email)
+            axios.post('https://retakeweb2022.kreosoft.space/api/account/login', article)
+                .then(response => {
+                    this.$store.commit('setLogin', response);
+                    this.$router.push({path: '/'});
+                    console.log("All is okay in login")
+                })
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    console.error("There was an error!", error);
+                });
+        }
+    }
 
 }
 </script>
