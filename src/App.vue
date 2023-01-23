@@ -5,7 +5,7 @@
 </template>
 
 <script>
-
+//Коммент для ветвления
 </script>
 
 <style>
